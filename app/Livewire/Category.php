@@ -97,10 +97,7 @@ class Category extends Component
         }
         $this->modal('form')->close();
     }
-
     
-    
-
     public function render()
     {
         $categories = $this->getData();

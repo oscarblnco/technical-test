@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Category extends Model
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
+    /** @use HasFactory<\Database\Factories\CategoryFactory> */
     use HasFactory;
 
     /**
@@ -24,5 +25,13 @@ class Category extends Model
     {
         $query->where("name","like","%{$value}%")
                 ->orWhere("description","like","%{$value}%");
+    }
+
+    /**
+     * The books that belong to the category.
+     */
+    public function books(): BelongsToMany
+    {
+        return $this->belongsToMany(Book::class);
     }
 }

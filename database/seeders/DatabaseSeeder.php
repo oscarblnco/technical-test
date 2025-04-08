@@ -21,7 +21,9 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
-            CategoriesSeeder::class
+            CategoriesSeeder::class,
+            BooksSeeder::class,
+            UsersSeeder::class
         ]);
     }
 }
