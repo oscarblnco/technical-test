@@ -86,7 +86,7 @@
                         <x-datatable-item :sortColumn="$sortColumn" :sortDirection="$sortDirection" columnName="name" />
                     </th>
                     <th scope="col" class="px-6 py-3" wire:click="doSort('description')" >
-                        {{ __('Description') }}
+                        <x-datatable-item :sortColumn="$sortColumn" :sortDirection="$sortDirection" columnName="description" />
                     </th>
                     <th scope="col" class="px-6 py-3">
                         {{ __('Actions') }}

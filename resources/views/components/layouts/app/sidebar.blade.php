@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" x-bind:class="dark ? 'dark' : ''" x-data="{ dark: false }">
     <head>
         @include('partials.head')
     </head>
@@ -21,7 +21,6 @@
 
             <flux:spacer />
               
-
             <!-- Desktop User Menu -->
             <flux:dropdown position="bottom" align="start">
                 <flux:profile
@@ -54,6 +53,12 @@
 
                     <flux:menu.radio.group>
                         <flux:menu.item :href="route('settings.profile')" icon="cog" wire:navigate>{{ __('Settings') }}</flux:menu.item>
+                    </flux:menu.radio.group>
+
+                    <flux:menu.separator />
+
+                    <flux:menu.radio.group>
+                        <flux:menu.item icon="power" @click="dark = !dark">{{ __('Change Mode') }}</flux:menu.item>
                     </flux:menu.radio.group>
 
                     <flux:menu.separator />

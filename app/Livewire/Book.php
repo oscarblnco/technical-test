@@ -16,6 +16,8 @@ class Book extends Component
     public $id = null;
     public $perPage = 3;
     public $search = "";
+    public $searchRead = "all";
+    public $searchCategory = "all";
     public $recordId = null;
     public $sortDirection = "DESC";
     public $sortColumn ="id";
@@ -56,8 +58,22 @@ class Book extends Component
 
     public function getData()
     {
-        return BookModel::search($this->search)
-        ->orderBy($this->sortColumn, $this->sortDirection)
+        $searchData = BookModel::search($this->search);
+
+        if ($this->searchRead=='all') {
+            $searchData = $searchData->whereIn('read', ['1', '0']);
+        } else {
+            $searchData = $searchData->where('read', $this->searchRead);
+        }
+
+        if ($this->searchCategory!='all') {
+            $category = $this->searchCategory;
+            $searchData = $searchData->whereHas('categories', function($q) use ($category) {
+                $q->where('id', $category);
+            });
+        }
+
+        return $searchData->orderBy($this->sortColumn, $this->sortDirection)
         ->paginate($this->perPage);
     }
 
@@ -84,7 +100,7 @@ class Book extends Component
 
     public function formOpen($id = null)
     {
-        $this->dataCategories = CategoryModel::all();
+        
 
         if (!is_null($id)) {
             $book = BookModel::find($id);
@@ -140,6 +156,7 @@ class Book extends Component
 
     public function render()
     {
+        $this->dataCategories = CategoryModel::all();
         $books = $this->getData();
         return view('livewire.books.index',['books'=>$books]);
     }

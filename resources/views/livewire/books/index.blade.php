@@ -83,17 +83,42 @@
     <div class="relative py-4 overflow-x-auto shadow-md sm:rounded-lg">
         <div class="pb-4 bg-white dark:bg-gray-900">
             <label for="table-search" class="sr-only">{{ __('Search') }}</label>
-            <div class="relative mt-1">
-                <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
-                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                    </svg>
+
+
+            <div class="columns-3">
+
+                <div class="relative mt-1">
+                    <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                        </svg>
+                    </div>
+                    <input type="text" 
+                            id="table-search" 
+                            class="block p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                            placeholder="Search for items"
+                            wire:model.live.debounce.300ms="search" />
                 </div>
-                <input type="text" 
-                        id="table-search" 
-                        class="block p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                        placeholder="Search for items"
-                        wire:model.live.debounce.300ms="search" />
+
+                <select 
+                    id="statusBook" 
+                    class="bg-gray-50 border border-gray-300 text-gray-900 mb-6 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-50 p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                    wire:model.live="searchRead" >
+                        <option value="all" selected>{{ __('Choose a status') }}</option>
+                        <option value="0">{{ __('Not read') }}</option>
+                        <option value="1">{{ __('Read') }}</option>
+                </select>
+
+                <select 
+                    id="categoryBook" 
+                    class="bg-gray-50 border border-gray-300 text-gray-900 mb-6 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-50 p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                    wire:model.live="searchCategory" >
+                        <option value="all" selected>{{ __('Choose a category') }}</option>
+                        @foreach ($dataCategories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endforeach
+                </select>
+            
             </div>
         </div>
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -111,8 +136,8 @@
                     <th scope="col" class="px-6 py-3" wire:click="doSort('editorial')" >
                         <x-datatable-item :sortColumn="$sortColumn" :sortDirection="$sortDirection" columnName="editorial" />
                     </th>
-                    <th scope="col" class="px-6 py-3" wire:click="doSort('year_Publication')" >
-                        <x-datatable-item :sortColumn="$sortColumn" :sortDirection="$sortDirection" columnName="yearPublication" />
+                    <th scope="col" class="px-6 py-3" wire:click="doSort('year_publication')" >
+                        <x-datatable-item :sortColumn="$sortColumn" :sortDirection="$sortDirection" columnName="year_publication" />
                     </th>
                     <th scope="col" class="px-6 py-3"  >
                         {{ __('Categories') }}
